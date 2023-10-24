@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        header {
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        img {
+            max-width: 8%;
+            height: auto;
+            display: block;
+            margin: -23px auto 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .copyright-button {
+            font-family: 'Roboto Slab', sans-serif;
+            text-decoration: underline;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            left: 100px;
+            color: white;
+            font-size: 50px;
+            padding: 10px 20px;
+            z-index: 2;
+        }
+
+        /* Стилі для контекстного вікна */
+        .context-menu {
+            display: none;
+            position: absolute;
+            top: 90px;
+            left: 140px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+            font-family: 'Roboto Slab', sans-serif;
+        }
+
+        /* Стилі для пунктів контекстного меню */
+        .context-menu-item {
+            cursor: pointer;
+            padding: 10px 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .context-menu-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Стилі для розділу "Авторське право" */
+        .section {
+            background-color: white;
+            padding: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-button {
+            font-family: 'Roboto Slab', sans-serif;
+            text-decoration: underline;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            left: 400px;
+            color: white;
+            font-size: 50px;
+            padding: 10px 20px;
+            z-index: 2;
+        }
+
+        .faq-button {
+            font-family: 'Roboto Slab', sans-serif;
+            text-decoration: underline;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 450px;
+            color: white;
+            font-size: 50px;
+            padding: 10px 20px;
+            z-index: 2;
+        }
+
+        .contact-button {
+            font-family: 'Roboto Slab', sans-serif;
+            text-decoration: underline;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 120px;
+            color: white;
+            font-size: 50px;
+            padding: 10px 20px;
+            z-index: 2;
+        }
+
+        .square-button {
+            font-family: 'Roboto Slab', sans-serif;
+            background-color: #182066;
+            color: white;
+            border: 2px solid white;
+            padding: 30px 30px;
+            font-size: 18px;
+            text-align: center;
+            cursor: pointer;
+            display: inline-block;
+            position: absolute;
+            top: 400px;
+            right: 570px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/fon.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            backdrop-filter: blur(20px);
+            z-index: -1;
+        }
+
+        .header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            background-color: rgba(24, 32, 102, 0.9);
+            z-index: 1;
+        }
+
+        .button {
+            font-family: 'Roboto Slab', sans-serif;
+            text-decoration: none;
+            cursor: pointer;
+            position: absolute;
+            display: inline-block;
+            z-index: 1;
+            transition: color 0.3s ease;
+        }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #182066;
+            transform: scaleX(0);
+            transform-origin: 0 100%;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .button:hover {
+            color: white;
+        }
+
+        .button:hover::before {
+            transform: scaleX(1);
+            background-color: white;
+        }
+
+        /* Стилі для форми (початково ховаємо) */
+        .consultation-form {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 3;
+            font-family: 'Arial', sans-serif;
+            width: 400px;
+        }
+
+        .consultation-form h2 {
+            background-color: #182066;
+            color: white;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .consultation-form form {
+            padding: 20px;
+        }
+
+        .consultation-form label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .consultation-form input[type="text"],
+        .consultation-form input[type="tel"],
+        .consultation-form input[type="email"],
+        .consultation-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        .consultation-form input[type="text"]:focus,
+        .consultation-form input[type="tel"]:focus,
+        .consultation-form input[type="email"]:focus,
+        .consultation-form textarea:focus {
+            border-color: #182066;
+        }
+
+        .consultation-form input[type="submit"] {
+            background-color: #182066;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .consultation-form input[type="submit"]:hover {
+            background-color: #0c174c;
+        }
+
+        .consultation-form button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            color: #182066;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .consultation-form button:hover {
+            background-color: #ccc;
+        }
+
+        .consultation-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+		
+		body {
+        font-family: 'Oswald', sans-serif; /* Замініть 'Ваш_вибраний_шрифт' на назву шрифту, який ви хочете використовувати */
+    }
+
+
+    .section h2 {
+        font-weight: bold;
+    }
+    </style>
+    <title>Юридична агенція YurystLPO</title>
+</head>
+<body>
+
+<header>
+    <div class="header-overlay"></div>
+    <div class="faq-button button" onclick="window.location.href = 'faq.html'">FAQ</div>
+    <div class="contact-button button" onclick="window.location.href = 'contact.html'">Контакти</div>
+    <a href="index.html"> 
+        <img src="images/logo.png" alt="Логотип">
+    </a>
+    <div class="copyright-button button" onmouseover="showContextMenu()" onmouseout="hideContextMenu()">Послуги</div>
+    <div class="about-button button" onclick="window.location.href = 'about.html'">Про нас</div>
+    <div class="context-menu" id="context-menu">
+        <div class="context-menu-item" onclick="window.location.href = 'copyright.html'">Авторське право</div>
+        <div class="context-menu-item" onclick="window.location.href = 'patent.html'">Патенти</div>
+    </div>
+</header>
+<section class="about-us" style="max-width: 800px; margin: 0 auto;">
+    <h2 style="font-family: 'Oswald', sans-serif; font-weight: bold; text-align: center;">Про нас</h2>
+    <img src="images/men.jpg" alt="Засновник компанії" style="float: right; margin: 0 20px 20px 20px; max-width: 200px;">
+    <p style="font-family: 'Oswald', sans-serif;">
+        День народження юридичної компанії «YurystLPO» – 26 січня 2017 року. Між цією датою та сьогоденням пролягає шлях від амбітної ідеї в голові однієї людини до лідерства на ринку правових послуг України.
+        <br>
+        <br>
+        Автор ідеї – Андрій Анатолійович Приходько, доктор юридичних наук, керуючий партнер компанії, який зумів акумулювати власні фахові компетенції й підприємницьких хист, та зібрати команду «гравців Вищої Ліги» у сфері юриспруденції.
+    </p>
+</section>
+</body>
+<script>
+    var contextMenu = document.getElementById('context-menu');
+
+    function showContextMenu() {
+        contextMenu.style.display = 'block';
+    }
+
+    function hideContextMenu() {
+        contextMenu.style.display = 'none';
+    }
+
+    function navigateToSection(section) {
+        // Додайте код для переходу до відповідного розділу сайту
+    }
+
+    function scrollDown() {
+        window.scrollBy(0, 500);
+    }
+
+    contextMenu.addEventListener('mouseenter', function () {
+        showContextMenu();
+    });
+
+    contextMenu.addEventListener('mouseleave', function () {
+        hideContextMenu();
+    });
+
+    var contextMenuItems = document.querySelectorAll('.context-menu-item');
+    contextMenuItems.forEach(function (item) {
+        item.addEventListener('click', function () {
+            scrollDown();
+            hideContextMenu();
+        });
+    });
+
+    function showConsultationForm() {
+        var consultationForm = document.getElementById('consultation-form');
+        consultationForm.style.display = 'block';
+    }
+
+    function hideConsultationForm() {
+        var consultationForm = document.getElementById('consultation-form');
+        consultationForm.style.display = 'none';
+    }
+</script>
+</body>
+</html>

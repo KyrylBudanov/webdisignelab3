@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        header {
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        img {
+            max-width: 8%;
+            height: auto;
+            display: block;
+            margin: -23px auto 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .copyright-button {
+            font-family: 'Roboto Slab', sans-serif;
+            text-decoration: underline;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            left: 100px;
+            color: white;
+            font-size: 50px;
+            padding: 10px 20px;
+            z-index: 2;
+        }
+
+        /* Стилі для контекстного вікна */
+        .context-menu {
+            display: none;
+            position: absolute;
+            top: 90px;
+            left: 140px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+            font-family: 'Roboto Slab', sans-serif;
+        }
+
+        /* Стилі для пунктів контекстного меню */
+        .context-menu-item {
+            cursor: pointer;
+            padding: 10px 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .context-menu-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Стилі для розділу "Авторське право" */
+        .section {
+            background-color: white;
+            padding: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-button {
+            font-family: 'Roboto Slab', sans-serif;
+            text-decoration: underline;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            left: 400px;
+            color: white;
+            font-size: 50px;
+            padding: 10px 20px;
+            z-index: 2;
+        }
+
+        .faq-button {
+            font-family: 'Roboto Slab', sans-serif;
+            text-decoration: underline;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 450px;
+            color: white;
+            font-size: 50px;
+            padding: 10px 20px;
+            z-index: 2;
+        }
+
+        .contact-button {
+            font-family: 'Roboto Slab', sans-serif;
+            text-decoration: underline;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 120px;
+            color: white;
+            font-size: 50px;
+            padding: 10px 20px;
+            z-index: 2;
+        }
+
+        .square-button {
+            font-family: 'Roboto Slab', sans-serif;
+            background-color: #182066;
+            color: white;
+            border: 2px solid white;
+            padding: 30px 30px;
+            font-size: 18px;
+            text-align: center;
+            cursor: pointer;
+            display: inline-block;
+            position: absolute;
+            top: 400px;
+            right: 570px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/fon.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            backdrop-filter: blur(20px);
+            z-index: -1;
+        }
+
+        .header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            background-color: rgba(24, 32, 102, 0.9);
+            z-index: 1;
+        }
+
+        .button {
+            font-family: 'Roboto Slab', sans-serif;
+            text-decoration: none;
+            cursor: pointer;
+            position: absolute;
+            display: inline-block;
+            z-index: 1;
+            transition: color 0.3s ease;
+        }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #182066;
+            transform: scaleX(0);
+            transform-origin: 0 100%;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .button:hover {
+            color: white;
+        }
+
+        .button:hover::before {
+            transform: scaleX(1);
+            background-color: white;
+        }
+
+        /* Стилі для форми (початково ховаємо) */
+        .consultation-form {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 3;
+            font-family: 'Arial', sans-serif;
+            width: 400px;
+        }
+
+        .consultation-form h2 {
+            background-color: #182066;
+            color: white;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .consultation-form form {
+            padding: 20px;
+        }
+
+        .consultation-form label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .consultation-form input[type="text"],
+        .consultation-form input[type="tel"],
+        .consultation-form input[type="email"],
+        .consultation-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        .consultation-form input[type="text"]:focus,
+        .consultation-form input[type="tel"]:focus,
+        .consultation-form input[type="email"]:focus,
+        .consultation-form textarea:focus {
+            border-color: #182066;
+        }
+
+        .consultation-form input[type="submit"] {
+            background-color: #182066;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .consultation-form input[type="submit"]:hover {
+            background-color: #0c174c;
+        }
+
+        .consultation-form button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            color: #182066;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .consultation-form button:hover {
+            background-color: #ccc;
+        }
+
+        .consultation-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        body {
+            font-family: 'Oswald', sans-serif;
+        }
+
+        .section h2 {
+            font-weight: bold;
+        }
+
+        summary {
+            text-decoration: underline;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .toggle-icon::before {
+            content: '➕';
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        details[open] summary .toggle-icon::before {
+            content: '➖';
+        }
+    </style>
+    <title>Юридична агенція YurystLPO</title>
+</head>
+<body>
+<header>
+    <div class="header-overlay"></div>
+    <div class="faq-button button" onclick="window.location.href = 'faq.html'">FAQ</div>
+    <div class="contact-button button" onclick="window.location.href = 'contact.html'">Контакти</div>
+    <a href="index.html"> 
+        <img src="images/logo.png" alt="Логотип">
+    </a>
+    <div class="copyright-button button" onmouseover="showContextMenu()" onmouseout="hideContextMenu()">Послуги</div>
+    <div class="about-button button" onclick="window.location.href = 'about.html'">Про нас</div>
+    <div class="context-menu" id="context-menu">
+        <div class="context-menu-item" onclick="window.location.href = 'copyright.html'">Авторське право</div>
+        <div class="context-menu-item" onclick="window.location.href = 'patent.html'">Патенти</div>
+    </div>
+</header>
+<section class="section" id="faq">
+    <h2 style="font-weight: bold">Часті запитання</h2>
+
+    <!-- Питання 1 -->
+    <details>
+        <summary><strong>Питання 1:</strong> Що таке торговельна марка?</summary>
+        <p>ТОРГОВЕЛЬНА МАРКА (вона ж бренд, вона ж логотип, вона ж товарний знак, вона ж рекламне гасло, вона ж фірмовий знак, вона ж слоган) – це позначення, завдяки якому споживачі можуть відрізнити товари та/або послуги одного виробника від аналогічних товарів та/або послуг іншого виробника.</p>
+        <p>Приклад: торговельні марки створені для того, щоб шанувальники парфумів «Шанель № 5» не переплутали їх з «Червоною Москвою», прихильники горілки «ХОРТИЦЯ» не плутали її з горілкою «СТОЛИЧНА».</p>
+    </details>
+
+    <hr> <!-- Підкреслення між питаннями -->
+
+    <!-- Питання 2 -->
+    <details>
+        <summary><strong>Питання 2:</strong> Що може бути торговельною маркою?</summary>
+        <p>Практично будь-яке позначення може бути зареєстровано як торговельна марка.</p>
+        <p>Торговельні марки можуть бути:</p>
+        <p>– словесними (слова, назви, слогани). Наприклад, торговельна марка: СИНЕРГІЯ</p>
+        <!-- Додайте інші варіанти (зображувальні, комбіновані і т. д.) за аналогією -->
+    </details>
+
+    <hr> <!-- Підкреслення між питаннями -->
+
+    <!-- Питання 3 -->
+    <details>
+        <summary><strong>Питання 3:</strong> Які документи необхідні для реєстрації торговельної марки?</summary>
+        <p>У разі, якщо Ви співпрацюєте з нами, то від Вас потрібно:</p>
+        <p>Для початку звернутися до нас у будь-який зручний для Вас спосіб;</p>
+        <p>Заповнити нашу Анкету;</p>
+        <!-- Додайте інші пункти за аналогією -->
+    </details>
+
+    <hr> <!-- Підкреслення між питаннями -->
+
+    <!-- Питання 4 -->
+    <details>
+        <summary><strong>Питання 4:</strong> Чи можна зареєструвати торговельну марку самостійно, не звертаючись до патентного повіреного?</summary>
+        <p>Звичайно, можна! Наше законодавство обмежує в цьому питанні тільки іноземних громадян. Це вони ЗОБОВ’ЯЗАНІ реєструвати торговельні марки ТІЛЬКИ через патентних повірених. Що стосується українських громадян – то це Ваше ПРАВО!</p>
+        <p>Для отримання Свідоцтва про реєстрацію торговельної марки Вам необхідно лише вивчити закон «Про охорону прав на знаки для товарів і послуг», особливо УВАЖНО вивчити статті 5 і 6 цього закону, в яких описані абсолютні і відносні підстави для відмови в реєстрації торговельної марки. Ну і … ще пару-трійку нормативних документів. Потім переконатися, що ніхто в Україні не подав заявку на торговельну марку з точно таким же позначенням, як у Вас, або схожим до ступеня змішування. Після цього необхідно правильно заповнити документи, подати заявку і вчасно оплатити всі державні збори і мита. Ось, власне кажучи, і все. Через кілька років свідоцтво про реєстрацію торговельної марки у Вас «в кишені» …</p>
+        <p>При ретельному вивченні нормативних документів – успіх гарантовано!</p>
+        <p>Крім цього, у разі потреби, на будь-якому етапі реєстрації Ви можете звернутися до патентного повіреного, і він продовжить вести діловодство за Вашою заявкою. Однак, на жаль, як показує практика: в особливо запущених випадках не завжди вдається врятувати заявку навіть кваліфікованому фахівцю …</p>
+    </details>
+</section>
+
+</body>
+<script>
+    var contextMenu = document.getElementById('context-menu');
+
+    function showContextMenu() {
+        contextMenu.style.display = 'block';
+    }
+
+    function hideContextMenu() {
+        contextMenu.style.display = 'none';
+    }
+
+    function navigateToSection(section) {
+        // Додайте код для переходу до відповідного розділу сайту
+    }
+
+    function scrollDown() {
+        window.scrollBy(0, 500);
+    }
+
+    contextMenu.addEventListener('mouseenter', function () {
+        showContextMenu();
+    });
+
+    contextMenu.addEventListener('mouseleave', function () {
+        hideContextMenu();
+    });
+
+    var contextMenuItems = document.querySelectorAll('.context-menu-item');
+    contextMenuItems.forEach(function (item) {
+        item.addEventListener('click', function () {
+            scrollDown();
+            hideContextMenu();
+        });
+    });
+
+    function showConsultationForm() {
+        var consultationForm = document.getElementById('consultation-form');
+        consultationForm.style.display = 'block';
+    }
+
+    function hideConsultationForm() {
+        var consultationForm = document.getElementById('consultation-form');
+        consultationForm.style.display = 'none';
+    }
+</script>
+</html>
